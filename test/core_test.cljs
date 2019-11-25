@@ -1,6 +1,6 @@
 (ns core-test
   (:require
-   [aqua.core :as aqua]
+   [aqua.utils :as utils]
    [cljs.test :refer-macros [deftest is testing run-tests]]))
 
 (defn create-elements
@@ -37,7 +37,7 @@
           ids (rand-strs id-count)
           ;; side effect
           _ (create-elements ids)
-          nodes (aqua/collect-from-ids
+          nodes (utils/collect-from-ids
                  js/document
                  ids)]
       (is (= ids
@@ -53,7 +53,7 @@
           classes (rand-strs class-count)
           ;; side effect
           _ (create-elements classes nodes-per-class)
-          nodes (aqua/collect-from-classes
+          nodes (utils/collect-from-classes
                  js/document
                  classes)]
       (is (= classes
@@ -66,4 +66,4 @@
                       (count (second %)) nodes)))
       (clean-up-dom {:classes classes}))))
 
-#_(run-tests)
+(run-tests)
