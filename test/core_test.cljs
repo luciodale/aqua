@@ -1,7 +1,7 @@
 (ns core-test
   (:require
    [aqua.utils :as utils]
-   [cljs.test :refer-macros [deftest is testing run-tests]]))
+   [cljs.test :refer-macros [deftest is testing]]))
 
 (defn create-elements
   ([ids]
@@ -65,5 +65,3 @@
       (is (every? #(= nodes-per-class
                       (count (second %)) nodes)))
       (clean-up-dom {:classes classes}))))
-
-(run-tests)
