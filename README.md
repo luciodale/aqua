@@ -18,6 +18,7 @@ Aqua is a Clojurescript library that allows you to seamlessly animate DOM elemen
 - Universal - *For inline elements and external SVGs objects*
 - Extra Light - *Only a handful of internal functions and one API entry point*
 - No dependencies - *Yes, only interop*
+- Web & Mobile - *The code is simple enough to work on all platforms*
 
 As you must be excited about rolling your own awesome animations, I am going to show you how easy it is to get started. Here we go!
 
