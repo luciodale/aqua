@@ -4,6 +4,8 @@
 <img src="https://s5.gifyu.com/images/ezgif.com-video-to-gif-28409f37786f09158.gif" width="196"/>
 </div>
 
+See it live at https://www.opencrux.com/
+
 [![Clojars Project](https://img.shields.io/clojars/v/aqua.svg)](https://clojars.org/aqua)
 
 ## What is Aqua?
