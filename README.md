@@ -1,4 +1,8 @@
-Aqua logo
+<div style="display: inline;">
+<img src="https://s5.gifyu.com/images/ezgif.com-video-to-gifa7e25dd3820dfd28.gif" width="250" />
+<img src="https://s5.gifyu.com/images/ezgif.com-video-to-gif-163474dc641dcf465.gif" width="250" />
+<img src="https://s5.gifyu.com/images/ezgif.com-video-to-gif-28409f37786f09158.gif" width="196"/>
+</div>
 
 [![Clojars Project](https://img.shields.io/clojars/v/aqua.svg)](https://clojars.org/aqua)
 
