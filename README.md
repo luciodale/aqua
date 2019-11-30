@@ -8,12 +8,12 @@ It is a Clojurescript library that allows you to seamlessly animate DOM elements
 
 ## Why should you use it?
 
-- Granular - *From trivial to highly complex DOM nodes manipulations*
-- Universal - *Target both inline elements and external SVGs objects*
+- Granular degree - *From trivial to highly complex DOM nodes manipulations*
+- Universal - *For inline elements and external SVGs objects*
 - Extra Light - *Only a handful of internal functions and one API entry point*
 - No dependencies - *Yes, only interop*
 
-As you must be wondering "What is so special about it?", I will go straight to the code implementation. Let's start!
+As you must be excited about rolling your own awesome animations, I am going to show you how easy it is to get started. Here we go!
 
 ## API
 
@@ -22,14 +22,14 @@ As you must be wondering "What is so special about it?", I will go straight to t
 #### In Deps
 
 ```clojure
-aqua {:mvn/version "0.1.0"}
+aqua {:mvn/version "0.1.1"}
 ```
 
 or
 
 ```clojure
 aqua {:git/url "https://github.com/luciodale/aqua.git"
-:sha "copy and paste last commit sha"}
+:sha "last commit"}
  ```
 
 #### In Namespace
