@@ -26,7 +26,7 @@ As you must be excited about rolling your own awesome animations, I am going to 
 #### In Deps
 
 ```clojure
-aqua {:mvn/version "0.1.1"}
+aqua {:mvn/version "0.1.2"}
 ```
 
 or
@@ -61,7 +61,7 @@ The registration of animations is very straight forward. Call the `subscribe` fu
           (set! (-> element .-style .-transform)
                 (str "rotate(-" (/ offset 100 js/Math.PI) "rad)"))))}]})
 ```
-                
+
 Here, we assume that we have a div element, styled to look like a square, that rotates as we scroll. The HTML code might look like this:
 
 ```clojure
@@ -95,7 +95,7 @@ What follows is an explanation of all the available map keys:
 
 ### More words on the functionality
 
-The container element whose id is passed to the `:container-id` key, directly affects the offset value provided in the `:animate` anonymous function. In brief, as the element enteres the viewport from the bottom of the screen, the offset will have positive values such as 10, 100, 1000, and so on. Clearly, when the element is hidden further down the page, the offset will have negative values. 
+The container element whose id is passed to the `:container-id` key, directly affects the offset value provided in the `:animate` anonymous function. In brief, as the element enteres the viewport from the bottom of the screen, the offset will have positive values such as 10, 100, 1000, and so on. Clearly, when the element is hidden further down the page, the offset will have negative values.
 
 The `:inline` and `:external` keys allow the gathering of all DOM elements needed to be animated. In practice, the id and class names provided will be replaced with the elements whose style properties can be updated. Keep in mind that to apply some changes to all the elements of one class, a loop is needed as per example.
 
@@ -164,9 +164,9 @@ As you can notice, you can target single elements within the SVG code
 
 <img src="https://s5.gifyu.com/images/ezgif.com-video-to-gif-4c6c5d1bddf1390bc.gif" width="200" />
 
-Moving to the animations, the `:from` and `:to` keys can have any numeric value plus two helpers being `:no-stop` for the `:to` key and `:initial` for the `:from` key. They indicate that the effect is not restricted to hard coded values. 
+Moving to the animations, the `:from` and `:to` keys can have any numeric value plus two helpers being `:no-stop` for the `:to` key and `:initial` for the `:from` key. They indicate that the effect is not restricted to hard coded values.
 
-The `:initiate` key is particularly useful when you want to draw a path on scroll, as the `strokeDasharray` and `strokeDashoffset` need to be properly set. If you don't know in advanced what the length of the path is, you can dynamically set the element style like the following example: 
+The `:initiate` key is particularly useful when you want to draw a path on scroll, as the `strokeDasharray` and `strokeDashoffset` need to be properly set. If you don't know in advanced what the length of the path is, you can dynamically set the element style like the following example:
 
 ```clojure
 (aqua/subscribe
@@ -197,6 +197,4 @@ In this instance, the offset value is transformed to fall between 0 and 1 so tha
 
 ### Final thoughts
 
-It is important to keep in mind that this library does not tell the developer how to achieve a specific effect. In contrast, it provides useful shortcuts to let one focus solely on the animations implementation details. 
-
-
+It is important to keep in mind that this library does not tell the developer how to achieve a specific effect. In contrast, it provides useful shortcuts to let one focus solely on the animations implementation details.

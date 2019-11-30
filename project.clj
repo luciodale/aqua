@@ -1,4 +1,4 @@
-(defproject aqua "0.1.1"
+(defproject aqua "0.1.2"
   :description "Clojurescript on scroll animations for DOM elements, including external SVGs."
   :url "https://github.com/luciodale/aqua"
   :license {:name "MIT"}
