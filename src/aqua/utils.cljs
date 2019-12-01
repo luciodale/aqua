@@ -27,33 +27,28 @@
   (js/console.log m))
 
 (defn run-effect!
-  [{:keys [container-node animations] :as m} s]
+  [{:keys [container-node animations] :as m}]
   (let [d (distance-to-bottom container-node)]
-    (doseq [{:keys [from to animate k]} animations]
-      (do
-        (cond
-          (and (< (k @s) to) (> d to))
-          (animate to m)
-          (and (< d from) (> (k @s) from))
-          (animate from m)
-          (or
-           (and (= :initial from) (= :no-stop to))
-           (and (= :initial from) (<= d to))
-           (and (>= d from) (= :no-stop to))
-           (and (>= d from) (<= d to)))
-          (animate d m))
-        (swap! s assoc k d)))))
+    (doseq [{:keys [from to animate]} animations]
+      (cond
+        (or
+         (and (= :initial from) (= :no-stop to))
+         (and (= :initial from) (<= d to))
+         (and (>= d from) (= :no-stop to))
+         (and (>= d from) (<= d to))) (animate d m)
+        (> d to) (animate to m)
+        (< d from) (animate from m)))))
 
 (defn register-effect
   [m debug?]
-  (let [s (atom nil)]
+  (let [d (distance-to-bottom (:container-node m))]
     (when debug? (debug-print m))
     (when-let [init-f (:initiate m)]
-      (init-f (distance-to-bottom (:container-node m)) m))
-    (run-effect! m s)
+      (init-f d m))
+    (run-effect! m)
     (js/window.addEventListener
      "optimizedScroll"
-     #(run-effect! m s))))
+     #(run-effect! m))))
 
 (defn collect-from-ids
   [^js obj ids]
@@ -78,7 +73,7 @@
 (defn subscribe-effect
   [{:keys [container-id inline external animations initiate debug?]}]
   (let [container-node {:container-node (js/document.getElementById container-id)}
-        animations {:animations (mapv #(assoc % :k (keyword (gensym))) animations)}
+        animations {:animations animations}
         initiate {:initiate initiate}]
     (if external
       (let [^js object-node (js/document.getElementById (:object-id external))]
