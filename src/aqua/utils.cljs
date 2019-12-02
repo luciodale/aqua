@@ -75,24 +75,14 @@
   (let [container-node {:container-node (js/document.getElementById container-id)}
         animations {:animations animations}
         initiate {:initiate initiate}]
-    (if external
-      (let [^js object-node (js/document.getElementById (:object-id external))]
-        ;; wait for all resources to load
-        (.addEventListener
-         js/window
-         "load"
-         #(let [content (.-contentDocument object-node)]
-           (register-effect (merge
-                             container-node
-                             animations
-                             initiate
-                             {:object-node object-node}
-                             {:inline (collect-nodes inline js/document)}
-                             {:external (collect-nodes external ^js content)})
-                            debug?))))
-      (register-effect (merge
-                        container-node
-                        animations
-                        initiate
-                        {:inline (collect-nodes inline js/document)})
-                       debug?))))
+    (register-effect
+     (merge
+      container-node
+      animations
+      initiate
+      {:inline (collect-nodes inline js/document)}
+      (when-let [^js object-node (js/document.getElementById (:object-id external))]
+
+        {:object-node object-node
+         :external (collect-nodes external (.-contentDocument object-node))}))
+     debug?)))
