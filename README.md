@@ -29,7 +29,7 @@ As you must be excited about rolling your own awesome animations, I am going to 
 #### In Deps
 
 ```clojure
-aqua {:mvn/version "0.1.4"}
+aqua {:mvn/version "0.1.5"}
 ```
 
 or
@@ -198,6 +198,30 @@ In this instance, the offset value is transformed to fall between 0 and 1 so tha
 #### Output
 <img src="https://s5.gifyu.com/images/ezgif.com-video-to-gif-55d3025bff1dd20e5.gif" width="200">
 
-### Final thoughts
+## Single Page Application (SPA) and React
 
-It is important to keep in mind that this library does not tell the developer how to achieve a specific effect. In contrast, it provides useful shortcuts to let one focus solely on the animations implementation details.
+From version 0.1.5, Aqua is fully compatible with any Javascript framework and can be triggered to animate any mounted and unmounted element in a SPA context.
+
+## Debug
+
+Several useful debugging messages and warnings have been added and can be turned on by including a `:debug? true` key value pair in each map.
+
+```clojure
+(aqua/subscribe
+   {...
+    :debug? true
+    ...})
+```
+
+## Final notes
+
+When targeting the inline DOM elements with the `:inline` keyword, make sure that the script you will use to include Aqua is placed at the bottom of the HTML to allow all elements to be rendered first. If you are including some external SVG with the `object` HTML tag, use a `load` listener on the `js/window` object to make sure all resources are rendered AND loaded.
+
+When using Aqua from React, you could attach an `:onLoad` listener to an `object` tag as follows:
+
+```clojure
+[:object#your-id {:data "images/your-illustration.svg"
+                  :onLoad subscribe-animation}]
+```
+
+Where `subscribe-animation` is a wrapper of the `subscribe` function. Also, the lifecyle method `componentDidMount` might be used as well for inline DOM elements. However, if external resources are targeted, some extra logic is needed, as the above mentioned method is invoked when the component is rendered but not necessarily loaded.
