@@ -26,19 +26,41 @@
 (defn debug-print [m]
   (js/console.log m))
 
+(defn progress
+  [container-node d from to]
+  (let [offset-container (.-offsetTop container-node)
+        full-height (-> js/document .-body .-scrollHeight)
+        round-two-places #(/ (js/Math.round (* 100 %)) 100)]
+    (cond
+      (and (= from :initial) (= to :no-stop))
+      (round-two-places (/ js/window.pageYOffset
+                           (- full-height js/window.innerHeight)))
+      (= from :initial)
+      (round-two-places (/ js/window.pageYOffset
+                           (- offset-container to d)))
+      (= to :no-stop)
+      (round-two-places (/ d
+                           (- full-height offset-container)))
+      :else
+      (round-two-places (/ (- d from)
+                           (- to from))))))
+
 (defn run-effect!
   [{:keys [container-node animations] :as m}]
-  (let [d (distance-to-bottom container-node)]
+  (let [d (distance-to-bottom container-node)
+        progress (fn [from to] (progress container-node d from to))]
     (doseq [{:keys [from to animate]} animations]
       (try
-        (cond
-          (or
-           (and (= :initial from) (= :no-stop to))
-           (and (= :initial from) (<= d to))
-           (and (>= d from) (= :no-stop to))
-           (and (>= d from) (<= d to))) (animate d m)
-          (> d to) (animate to m)
-          (< d from) (animate from m))
+        (cond (or
+               (and (= :initial from) (= :no-stop to))
+               (and (= :initial from) (<= d to))
+               (and (>= d from) (= :no-stop to))
+               (and (>= d from) (<= d to))) (animate [d (progress from to)] m)
+              (> d to) (animate [to 1] m)
+              (< d from) (animate [from 0] m)
+              :else
+              (js/console.warn
+               ":from and :to keys can only have a numeric  value or :initial and :no-stop, respectively"))
         (catch js/Error e
           (js/console.err
            (str "Exception thrown in one of the animation functions" e)))))))
