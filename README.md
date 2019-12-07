@@ -59,7 +59,7 @@ The registration of animations is very straight forward. Call the `subscribe` fu
     [{:from 0
       :to :no-stop
       :animate
-      (fn [offset m]
+      (fn [[offset _] m]
         (let [element (-> m :inline :ids (get "element"))]
           (set! (-> element .-style .-transform)
                 (str "rotate(-" (/ offset 100 js/Math.PI) "rad)"))))}]})
@@ -98,7 +98,7 @@ What follows is an explanation of all the available map keys:
 
 ### More words on the functionality
 
-The container element whose id is passed to the `:container-id` key, directly affects the offset value provided in the `:animate` anonymous function. In brief, as the element enteres the viewport from the bottom of the screen, the offset will have positive values such as 10, 100, 1000, and so on. Clearly, when the element is hidden further down the page, the offset will have negative values.
+The container element whose id is passed to the `:container-id` key, directly affects the offset value provided in the `:animate` anonymous function. In brief, as the element enteres the viewport from the bottom of the screen, the offset will have positive values such as 10, 100, 1000, and so on. Clearly, when the element is hidden further down the page, the offset will have negative values. In addition to the offset pixel value, a percentage value can be destructured from the same vector at index 1. It indicates the animation progress from 0 to 1.
 
 The `:inline` and `:external` keys allow the gathering of all DOM elements needed to be animated. In practice, the id and class names provided will be replaced with the elements whose style properties can be updated. Keep in mind that to apply some changes to all the elements of one class, a loop is needed as per example.
 
@@ -110,7 +110,7 @@ The `:inline` and `:external` keys allow the gathering of all DOM elements neede
     [{:from 0
       :to :no-stop
       :animate
-      (fn [offset m]
+      (fn [[offset _] m]
         (let [elements (-> m :inline :classes (get "element"))
               offset (/ offset 3)]
           (doseq [element elements]
@@ -150,7 +150,7 @@ An additional example with an external SVG file is provided below.
     [{:from 0
       :to :no-stop
       :animate
-      (fn [offset m]
+      (fn [[offset _] m]
         (let [pin (-> m :external :ids (get "pin-path"))
               oval (-> m :external :ids (get "oval"))]
           (doseq [el [pin oval]]
@@ -177,7 +177,7 @@ The `:initiate` key is particularly useful when you want to draw a path on scrol
     :external {:object-id "element"
                :ids ["path"]}
     :initiate
-    (fn [offset m]
+    (fn [[offset _] m]
       (let [path (-> m :external :ids (get "path"))]
         (set! (-> path .-style .-strokeDasharray) (.getTotalLength path))
         (set! (-> path .-style .-strokeDashoffset) (.getTotalLength path))))
@@ -185,15 +185,11 @@ The `:initiate` key is particularly useful when you want to draw a path on scrol
     [{:from 100
       :to 500
       :animate
-      (fn [offset m]
+      (fn [[_ progress] m]
         (let [path (-> m :external :ids (get "path"))
-              length (.getTotalLength path)
-              ;; to get an offset value between 0 and 1 based on our start and end points
-              offset (/ (- offset 100) (- 500 100))]
-          (set! (-> path .-style .-strokeDashoffset) (- (.getTotalLength path) (* length offset)))))}]})
+              length (.getTotalLength path)]
+           (set! (-> path .-style .-strokeDashoffset) (- (.getTotalLength path) (* length progress)))))}]})
 ```
-
-In this instance, the offset value is transformed to fall between 0 and 1 so that it can be directly multiplied by the path length to obtain the new `strokeDashoffset` property. Note that 100 and 500 represent the points where the effect should start and end, respectively (in pixels).
 
 #### Output
 <img src="https://s5.gifyu.com/images/ezgif.com-video-to-gif-55d3025bff1dd20e5.gif" width="200">
