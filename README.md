@@ -29,7 +29,7 @@ As you must be excited about rolling your own awesome animations, I am going to 
 #### In Deps
 
 ```clojure
-aqua {:mvn/version "0.1.5"}
+aqua {:mvn/version "0.2.0"}
 ```
 
 or
