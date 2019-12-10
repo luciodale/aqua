@@ -177,7 +177,7 @@ The `:initiate` key is particularly useful when you want to draw a path on scrol
     :external {:object-id "element"
                :ids ["path"]}
     :initiate
-    (fn [[offset _] m]
+    (fn [offset m]
       (let [path (-> m :external :ids (get "path"))]
         (set! (-> path .-style .-strokeDasharray) (.getTotalLength path))
         (set! (-> path .-style .-strokeDashoffset) (.getTotalLength path))))
