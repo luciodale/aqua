@@ -109,8 +109,8 @@
    :classes (collect-from-classes obj (:classes m) debug?)})
 
 (defn subscribe-effect
-  [{:keys [container-id inline external animations initiate debug?]}]
-  (let [container-node {:container-node (js/document.getElementById container-id)}
+  [{:keys [container inline external animations initiate debug?]}]
+  (let [container-node {:container-node (js/document.querySelector container)}
         animations {:animations animations}
         initiate {:initiate initiate}]
     (register-effect

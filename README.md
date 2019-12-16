@@ -29,7 +29,7 @@ As you must be excited about rolling your own awesome animations, I am going to 
 #### In Deps
 
 ```clojure
-aqua {:mvn/version "0.2.0"}
+aqua {:mvn/version "0.2.1"}
 ```
 
 or
@@ -53,7 +53,7 @@ The registration of animations is very straight forward. Call the `subscribe` fu
 
 ```clojure
 (aqua/subscribe
-   {:container-id "element"
+   {:container "#element"
     :inline {:ids ["element"]}
     :animations
     [{:from 0
@@ -78,7 +78,7 @@ Here, we assume that we have a div element, styled to look like a square, that r
 <img src="https://s5.gifyu.com/images/ezgif.com-gif-makeraf56e657628d6f15.gif" width="200" />
 
 What follows is an explanation of all the available map keys:
-- `:container-id` - *The reference element of your animation*
+- `:container` - *The reference to the element of your animation, being a class or an id*
 
 - `:inline` - *To specify that the elements we are targeting are expressively defined in the HTML code*
 - `:ids` - *A sequence of all ids whose elements are needed for the animation*
@@ -92,19 +92,19 @@ What follows is an explanation of all the available map keys:
 - `:initiate` - *A function that is run only once to allow any pre-effect element manipulation*
 
 - `:animations` - *A sequence of animations that are attached to the on-scroll event to perform all side effects*
-- `:from` - *To specify when the event should start* - in px and based on `:container-id`
-- `:to` - *To specify when the event should stop* - in px and based on `:container-id`
+- `:from` - *To specify when the event should start* - in px and based on `:container`
+- `:to` - *To specify when the event should stop* - in px and based on `:container`
 - `:animate` - *A function that provides the offset and all resolved DOM elements*
 
 ### More words on the functionality
 
-The container element whose id is passed to the `:container-id` key, directly affects the offset value provided in the `:animate` anonymous function. In brief, as the element enteres the viewport from the bottom of the screen, the offset will have positive values such as 10, 100, 1000, and so on. Clearly, when the element is hidden further down the page, the offset will have negative values. In addition to the offset pixel value, a percentage value can be destructured from the same vector at index 1. It indicates the animation progress from 0 to 1.
+The container element whose id or class is passed to the `:container` key, directly affects the offset value provided in the `:animate` anonymous function. In brief, as the element enteres the viewport from the bottom of the screen, the offset will have positive values such as 10, 100, 1000, and so on. Clearly, when the element is hidden further down the page, the offset will have negative values. In addition to the offset pixel value, a percentage value can be destructured from the same vector at index 1. It indicates the animation progress from 0 to 1.
 
 The `:inline` and `:external` keys allow the gathering of all DOM elements needed to be animated. In practice, the id and class names provided will be replaced with the elements whose style properties can be updated. Keep in mind that to apply some changes to all the elements of one class, a loop is needed as per example.
 
 ```clojure
 (aqua/subscribe
-   {:container-id "container"
+   {:container "#container"
     :inline {:classes ["element"]}
     :animations
     [{:from 0
@@ -143,7 +143,7 @@ An additional example with an external SVG file is provided below.
 
 ```clojure
 (aqua/subscribe
-   {:container-id "element"
+   {:container "#element"
     :external {:object-id "element"
                :ids ["pin-path" "oval"]}
     :animations
@@ -173,7 +173,7 @@ The `:initiate` key is particularly useful when you want to draw a path on scrol
 
 ```clojure
 (aqua/subscribe
-   {:container-id "element"
+   {:container "#element"
     :external {:object-id "element"
                :ids ["path"]}
     :initiate
