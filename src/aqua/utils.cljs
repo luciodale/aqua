@@ -19,9 +19,8 @@
 
 (defn distance-to-bottom
   [^js div-node]
-  (+ (- (.-offsetTop div-node))
-     js/window.innerHeight
-     js/window.pageYOffset))
+  (+ (- (.-top (.getBoundingClientRect div-node)))
+     js/window.innerHeight))
 
 (defn debug-print [m]
   (js/console.log m))
